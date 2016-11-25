@@ -1,4 +1,5 @@
-package starter.ca.qc.johnabbott.cs.cs616.starter.notes;
+//package starter.ca.qc.johnabbott.cs.cs616.starter.notes;
+package starter
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;

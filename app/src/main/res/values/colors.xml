@@ -20,4 +20,7 @@
     <color name="base0D">#66D9EF</color>
     <color name="base0E">#AE81FF</color>
     <color name="base0F">#CC6633</color>
+
+    <color name="errorColor">#eb4343</color>
+    <color name="defaultColor">#FF0E0202</color>
 </resources>

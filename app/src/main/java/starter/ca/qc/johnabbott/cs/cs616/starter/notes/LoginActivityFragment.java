@@ -1,5 +1,6 @@
 package starter.ca.qc.johnabbott.cs.cs616.starter.notes;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
@@ -14,10 +15,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import starter.ca.qc.johnabbott.cs.cs616.starter.notes.server.AsyncHttpRequest;
 import starter.ca.qc.johnabbott.cs.cs616.starter.notes.server.HttpProgress;
 import starter.ca.qc.johnabbott.cs.cs616.starter.notes.server.HttpResponse;
 import starter.ca.qc.johnabbott.cs.cs616.starter.notes.server.User;
+import starter.ca.qc.johnabbott.cs.cs616.starter.notes.AlertDialogFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -131,6 +134,15 @@ public class LoginActivityFragment extends Fragment {
             @Override
             public void onError(Exception e) {
                 progressBar.setVisibility(View.INVISIBLE);
+                final AlertDialogFragment dialogFragment = AlertDialogFragment.create("Server Error", "There was a problem connecting to the server, Sorry for the inconvenience.", "Try Again", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        validUser();
+                    }
+                });
+                dialogFragment.show(getFragmentManager(), "alert");
+
+
                 enable();
             }
         });

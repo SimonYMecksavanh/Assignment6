@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class LoginActivityFragment extends Fragment {
     private TextView errorPasswordText;
     private TextView usernameLabel;
     private TextView passwordLabel;
+    private ProgressBar progressBar;
 
     public LoginActivityFragment() {
     }
@@ -45,12 +48,14 @@ public class LoginActivityFragment extends Fragment {
         errorPasswordText = (TextView) root.findViewById(R.id.errorPassword_textView);
         usernameLabel = (TextView) root.findViewById(R.id.username_textView);
         passwordLabel = (TextView) root.findViewById(R.id.password_textView);
+        progressBar = (ProgressBar) root.findViewById(R.id.progressBar);
 
+        progressBar.setVisibility(View.INVISIBLE);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Set default colros
+                //Set default colors
                 usernameText.getBackground().setColorFilter(getResources().getColor(R.color.defaultColor), PorterDuff.Mode.SRC_ATOP);
                 passwordText.getBackground().setColorFilter(getResources().getColor(R.color.defaultColor), PorterDuff.Mode.SRC_ATOP);
                 usernameLabel.setTextColor(getResources().getColor(R.color.defaultColor));
@@ -73,6 +78,7 @@ public class LoginActivityFragment extends Fragment {
             }
         });
 
+
         return root;
     }
 
@@ -93,7 +99,7 @@ public class LoginActivityFragment extends Fragment {
                         startActivityForResult(intent, 123);
                         valid[0] = true;
                     }else{
-                        //Display erros for invalid password
+                        //Display errors for invalid password
                         passwordText.setText("");
                         Toast.makeText(getContext(), "Invalid Password", Toast.LENGTH_LONG).show();
                         passwordLabel.setTextColor(getResources().getColor(R.color.errorColor));
@@ -111,22 +117,43 @@ public class LoginActivityFragment extends Fragment {
                     errorUsernameText.setText("Invalid User");
                     valid[0] = false;
                 }
+                //reset progress bar to invisible
+                progressBar.setVisibility(View.INVISIBLE);
+                enable();
             }
 
             @Override
             public void onProgress(HttpProgress progress) {
-
+                progressBar.setVisibility(View.VISIBLE);
+                disable();
             }
 
             @Override
             public void onError(Exception e) {
-
+                progressBar.setVisibility(View.INVISIBLE);
+                enable();
             }
         });
 
         task.execute();
 
         return valid[0];
+    }
+
+    private void enable() {
+        usernameText.setEnabled(true);
+        passwordText.setEnabled(true);
+        usernameLabel.setEnabled(true);
+        passwordLabel.setEnabled(true);
+        loginButton.setEnabled(true);
+    }
+
+    private void disable() {
+        usernameText.setEnabled(false);
+        passwordText.setEnabled(false);
+        usernameLabel.setEnabled(false);
+        passwordLabel.setEnabled(false);
+        loginButton.setEnabled(false);
     }
 }
 
